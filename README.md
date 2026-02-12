@@ -54,7 +54,7 @@ cd shattered-skies-launch-main
 
 # Install dependencies
 npm install
-# OR if using bun
+# OR if using bun (full install, dev deps included)
 # bun install
 
 # Start development server
