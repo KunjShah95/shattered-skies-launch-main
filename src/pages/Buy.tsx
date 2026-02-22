@@ -1,24 +1,20 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { ShieldCheck, Zap, Mail, Download, Book, Star, ArrowRight, Check } from "lucide-react";
+import { ShoppingCart, Check, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import bookCover from "@/assets/book-cover.jpg";
 
 const Buy = () => {
   const [format, setFormat] = useState("ebook");
   const [quantity, setQuantity] = useState(1);
-  const [orderComplete, setOrderComplete] = useState(false);
+  const [step, setStep] = useState<"select" | "checkout" | "success">("select");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     address: "",
-    city: "",
-    zipCode: "",
   });
 
   const prices = {
@@ -26,333 +22,320 @@ const Buy = () => {
     paperback: 599,
   };
 
-  const handlePurchase = (e: React.FormEvent) => {
+  const currentPrice = prices[format as keyof typeof prices] * quantity;
+
+  const handleCheckout = (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Thank you for your order! Check your email for confirmation.");
-    setOrderComplete(true);
+    if (!formData.name || !formData.email || (format === "paperback" && !formData.address)) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
+    setStep("success");
+    toast.success("Order placed successfully!");
   };
 
-  const pricingFeatures = {
-    ebook: [
-      "PDF, EPUB, and MOBI formats",
-      "Instant download after purchase",
-      "Read on any device",
-      "Lifetime access",
-      "Free future updates",
-      "Bonus chapters included",
-    ],
-    paperback: [
-      "Physical book with premium cover",
-      "384 pages of content",
-      "High-quality paper",
-      "Free shipping worldwide",
-      "Signed copy option available",
-      "Digital copy included",
-    ],
-  };
-
-  if (orderComplete) {
+  if (step === "success") {
     return (
-      <div className="min-h-screen py-20">
-        <div className="container max-w-2xl">
-          <Card className="p-12 text-center space-y-6 animate-fade-in bg-gradient-to-br from-primary/5 to-secondary/5 border-primary/20">
-            <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
+      <div className="min-h-screen bg-white flex items-center justify-center py-20">
+        <div className="container max-w-3xl mx-auto px-6 text-center">
+          <div className="mb-8 flex justify-center">
+            <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center">
               <Check className="h-10 w-10 text-primary" />
             </div>
-            <h1 className="text-4xl font-serif font-bold gradient-text">
-              Thank You for Your Order!
-            </h1>
-            <p className="text-lg text-muted-foreground">
-              Your order has been confirmed and you will receive an email shortly.
+          </div>
+
+          <h1 className="text-5xl md:text-6xl font-black mb-6">
+            Order<br />
+            <span className="gradient-text">Confirmed</span>
+          </h1>
+
+          <p className="text-2xl text-foreground/60 mb-6">
+            Thank you for your purchase.
+          </p>
+
+          <div className="bg-foreground/5 rounded-xl p-12 mb-12">
+            <div className="text-lg text-foreground/60 mb-4">Order Number</div>
+            <div className="text-3xl font-black font-mono mb-8">SS-2024-{Math.random().toString(36).substr(2, 9).toUpperCase()}</div>
+            <p className="text-foreground/60 mb-6">
+              A confirmation email has been sent to <strong>{formData.email}</strong>
             </p>
-            <div className="bg-card rounded-xl p-6 space-y-3 border border-border/50">
-              <p className="font-semibold text-foreground text-lg">Order Summary</p>
-              <div className="grid grid-cols-2 gap-2 text-sm">
-                <p className="text-muted-foreground">Book:</p>
-                <p className="text-foreground font-medium">Shattered Skies</p>
-                <p className="text-muted-foreground">Format:</p>
-                <p className="text-foreground font-medium">
-                  {format === "ebook" ? "eBook (Digital)" : "Paperback (Physical)"}
-                </p>
-                <p className="text-muted-foreground">Quantity:</p>
-                <p className="text-foreground font-medium">{quantity}</p>
-                <p className="text-muted-foreground">Total:</p>
-                <p className="text-foreground font-bold text-lg">
-                  ₹{(prices[format as keyof typeof prices] * quantity).toFixed(0)}
-                </p>
-              </div>
-            </div>
-            <p className="text-sm text-muted-foreground">
-              Confirmation sent to: <strong className="text-foreground">{formData.email}</strong>
+            <p className="text-foreground/60">
+              {format === "ebook"
+                ? "Check your email for the download link. You can read it immediately."
+                : "Your order will be shipped within 3-5 business days. Track your package using the link in your confirmation email."}
             </p>
-            <Button asChild size="lg" className="mt-6">
-              <a href="/">Return to Home</a>
+          </div>
+
+          <div className="space-y-4">
+            <p className="text-foreground/60 mb-8">
+              Enjoy <em>Shattered Skies</em>. Share your thoughts when you're done—I'd love to hear from you.
+            </p>
+            <Button
+              onClick={() => (window.location.href = "/")}
+              size="lg"
+              className="btn-primary"
+            >
+              Back to Home
+              <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-          </Card>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen py-12">
-      <div className="container max-w-6xl">
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <h1 className="text-5xl md:text-6xl font-serif font-bold mb-6">
-            Get Your <span className="gradient-text">Copy</span>
+    <div className="min-h-screen bg-white py-20">
+      <div className="container max-w-7xl mx-auto px-6">
+        {/* Header */}
+        <div className="mb-20">
+          <span className="text-sm font-bold uppercase tracking-widest text-secondary">
+            Get the book
+          </span>
+          <h1 className="text-5xl md:text-6xl font-black mt-4 mb-6">
+            Own<br />
+            <span className="gradient-text">Shattered Skies</span>
           </h1>
-          <p className="text-xl text-muted-foreground">
-            Choose the format that works best for you and start reading today
+          <p className="text-xl text-foreground/60 max-w-2xl">
+            Choose your preferred format. Dive into the fractured worlds of Aarav's universe.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          <div className="space-y-8">
-            <Card className="overflow-hidden">
-              <div className="aspect-[3/4] relative">
-                <img
-                  src={bookCover}
-                  alt="Shattered Skies Book Cover"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute top-4 right-4 bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-medium">
-                  Bestseller
-                </div>
-              </div>
-              <CardContent className="p-6">
-                <h2 className="text-2xl font-serif font-bold mb-2">Shattered Skies</h2>
-                <p className="text-muted-foreground mb-4">
-                  A genre-defining journey through fractured realities
-                </p>
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="flex">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 text-yellow-500 fill-yellow-500" />
-                    ))}
-                  </div>
-                  <span className="text-sm text-muted-foreground">4.9 (500+ reviews)</span>
-                </div>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div className="p-3 bg-card rounded-lg">
-                    <p className="text-muted-foreground">Genre</p>
-                    <p className="font-semibold">Fiction / Fantasy</p>
-                  </div>
-                  <div className="p-3 bg-card rounded-lg">
-                    <p className="text-muted-foreground">Pages</p>
-                    <p className="font-semibold">384</p>
-                  </div>
-                  <div className="p-3 bg-card rounded-lg">
-                    <p className="text-muted-foreground">Language</p>
-                    <p className="font-semibold">English</p>
-                  </div>
-                  <div className="p-3 bg-card rounded-lg">
-                    <p className="text-muted-foreground">Published</p>
-                    <p className="font-semibold">2024</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <div className="grid grid-cols-3 gap-4">
-              {[
-                { icon: ShieldCheck, label: "Secure Payment" },
-                { icon: Zap, label: "Instant Access" },
-                { icon: Mail, label: "24/7 Support" },
-              ].map((item, index) => (
-                <Card key={index} className="p-4 text-center bg-card">
-                  <item.icon className="h-6 w-6 text-primary mx-auto mb-2" />
-                  <p className="text-xs text-muted-foreground">{item.label}</p>
-                </Card>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <Card className="bg-card">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-2xl">Choose Your Format</CardTitle>
-                <CardDescription>Select the option that works best for you</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={handlePurchase} className="space-y-6">
-                  <RadioGroup value={format} onValueChange={setFormat}>
-                    <div className="space-y-4">
-                      <div
-                        className={`p-6 rounded-xl border-2 transition-all cursor-pointer ${
-                          format === "ebook"
-                            ? "border-primary bg-primary/5"
-                            : "border-border hover:border-primary/50"
-                        }`}
-                      >
-                        <div className="flex items-start gap-4">
-                          <RadioGroupItem value="ebook" id="ebook" className="mt-1" />
-                          <Label htmlFor="ebook" className="flex-1 cursor-pointer">
-                            <div className="flex justify-between items-start mb-2">
-                              <div>
-                                <p className="font-semibold text-lg flex items-center gap-2">
-                                  <Download className="h-5 w-5" />
-                                  eBook (Digital)
-                                </p>
-                                <p className="text-sm text-muted-foreground mt-1">
-                                  PDF, EPUB, and MOBI formats
-                                </p>
-                              </div>
-                              <div className="text-right">
-                                <p className="text-2xl font-bold gradient-text">₹299</p>
-                                <p className="text-xs text-muted-foreground">One-time payment</p>
-                              </div>
-                            </div>
-                            <div className="flex flex-wrap gap-2 mt-4">
-                              {pricingFeatures.ebook.map((feature, i) => (
-                                <span
-                                  key={i}
-                                  className="inline-flex items-center gap-1 text-xs bg-background px-2 py-1 rounded-full"
-                                >
-                                  <Check className="h-3 w-3 text-primary" />
-                                  {feature}
-                                </span>
-                              ))}
-                            </div>
-                          </Label>
-                        </div>
-                      </div>
-
-                      <div
-                        className={`p-6 rounded-xl border-2 transition-all cursor-pointer ${
-                          format === "paperback"
-                            ? "border-primary bg-primary/5"
-                            : "border-border hover:border-primary/50"
-                        }`}
-                      >
-                        <div className="flex items-start gap-4">
-                          <RadioGroupItem value="paperback" id="paperback" className="mt-1" />
-                          <Label htmlFor="paperback" className="flex-1 cursor-pointer">
-                            <div className="flex justify-between items-start mb-2">
-                              <div>
-                                <p className="font-semibold text-lg flex items-center gap-2">
-                                  <Book className="h-5 w-5" />
-                                  Paperback (Physical)
-                                </p>
-                                <p className="text-sm text-muted-foreground mt-1">
-                                  Ships within 5-7 business days
-                                </p>
-                              </div>
-                              <div className="text-right">
-                                <p className="text-2xl font-bold gradient-text">₹599</p>
-                                <p className="text-xs text-muted-foreground">Free shipping</p>
-                              </div>
-                            </div>
-                            <div className="flex flex-wrap gap-2 mt-4">
-                              {pricingFeatures.paperback.map((feature, i) => (
-                                <span
-                                  key={i}
-                                  className="inline-flex items-center gap-1 text-xs bg-background px-2 py-1 rounded-full"
-                                >
-                                  <Check className="h-3 w-3 text-primary" />
-                                  {feature}
-                                </span>
-                              ))}
-                            </div>
-                          </Label>
-                        </div>
-                      </div>
-                    </div>
-                  </RadioGroup>
-
-                  <div>
-                    <Label htmlFor="quantity">Quantity</Label>
-                    <Input
-                      id="quantity"
-                      type="number"
-                      min="1"
-                      max="10"
-                      value={quantity}
-                      onChange={(e) => setQuantity(parseInt(e.target.value))}
-                      className="mt-2 bg-background"
+        {/* Format Selection */}
+        {step === "select" && (
+          <div className="mb-20">
+            <div className="grid lg:grid-cols-2 gap-12 items-start">
+              {/* Left: Book Cover Preview */}
+              <div className="flex justify-center">
+                <div className="w-80 h-full">
+                  <div className="aspect-[3/4] relative sticky top-20">
+                    <div className="absolute -inset-4 bg-secondary/10 rounded-2xl" />
+                    <img
+                      src={bookCover}
+                      alt="Shattered Skies Book Cover"
+                      className="relative w-full h-full object-cover rounded-lg shadow-2xl"
                     />
                   </div>
+                </div>
+              </div>
 
+              {/* Right: Format Selection and Checkout */}
+              <div className="space-y-10">
+                {/* Format Options */}
+                <div>
+                  <h2 className="text-2xl font-black mb-8">Choose Your Format</h2>
+
+                  <RadioGroup value={format} onValueChange={setFormat} className="space-y-4">
+                    {[
+                      {
+                        id: "ebook",
+                        label: "E-Book",
+                        price: 299,
+                        desc: "Read on any device instantly.",
+                        icon: "📱",
+                      },
+                      {
+                        id: "paperback",
+                        label: "Paperback",
+                        price: 599,
+                        desc: "Hold the story in your hands.",
+                        icon: "📖",
+                      },
+                    ].map((option) => (
+                      <label
+                        key={option.id}
+                        className={`flex items-center gap-4 p-6 border-2 rounded-xl cursor-pointer transition-all ${
+                          format === option.id
+                            ? "border-primary bg-primary/5"
+                            : "border-foreground/10 hover:border-foreground/20"
+                        }`}
+                      >
+                        <RadioGroupItem value={option.id} id={option.id} className="h-6 w-6" />
+                        <div className="flex-1">
+                          <div className="text-2xl mb-1">{option.icon}</div>
+                          <div className="font-black text-lg">{option.label}</div>
+                          <div className="text-sm text-foreground/60">{option.desc}</div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-3xl font-black text-primary">₹{option.price}</div>
+                        </div>
+                      </label>
+                    ))}
+                  </RadioGroup>
+                </div>
+
+                {/* Quantity */}
+                <div>
+                  <h3 className="font-black mb-4">Quantity</h3>
+                  <div className="flex items-center gap-4">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                      className="h-12 w-12 rounded-lg border-2 border-foreground/10"
+                    >
+                      −
+                    </Button>
+                    <input
+                      type="number"
+                      min="1"
+                      value={quantity}
+                      onChange={(e) => setQuantity(parseInt(e.target.value) || 1)}
+                      className="text-center text-2xl font-black w-16 bg-transparent"
+                    />
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => setQuantity(quantity + 1)}
+                      className="h-12 w-12 rounded-lg border-2 border-foreground/10"
+                    >
+                      +
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Summary */}
+                <Card className="p-8 bg-foreground/5 border-0 rounded-xl space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-foreground/60">Subtotal</span>
+                    <span className="font-bold">₹{currentPrice}</span>
+                  </div>
+                  <div className="flex justify-between items-center pb-4 border-b border-foreground/20">
+                    <span className="text-foreground/60">Shipping</span>
+                    <span className="font-bold">{format === "ebook" ? "Free" : "Calculated at checkout"}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-xl">
+                    <span className="font-black">Total</span>
+                    <span className="text-3xl font-black text-primary">₹{currentPrice}</span>
+                  </div>
+                </Card>
+
+                <Button
+                  size="lg"
+                  onClick={() => setStep("checkout")}
+                  className="btn-primary w-full"
+                >
+                  <ShoppingCart className="h-5 w-5 mr-2" />
+                  Proceed to Checkout
+                  <ArrowRight className="ml-auto h-5 w-5" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Checkout Form */}
+        {step === "checkout" && (
+          <div className="max-w-2xl mx-auto mb-20">
+            <button
+              onClick={() => setStep("select")}
+              className="text-primary font-bold mb-8 flex items-center gap-2 hover:opacity-70"
+            >
+              ← Back to Format Selection
+            </button>
+
+            <h2 className="text-4xl font-black mb-12">
+              Complete<br />
+              <span className="gradient-text">Your Order</span>
+            </h2>
+
+            <Card className="p-10 border-2 border-foreground/10 rounded-xl">
+              <form onSubmit={handleCheckout} className="space-y-8">
+                {/* Contact Info */}
+                <div>
+                  <h3 className="font-black text-xl mb-6">Contact Information</h3>
                   <div className="space-y-4">
-                    <h3 className="font-semibold">Your Information</h3>
                     <Input
                       placeholder="Full Name"
-                      required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="bg-background"
+                      required
+                      className="bg-background border-foreground/10 h-12 text-base"
                     />
                     <Input
                       type="email"
                       placeholder="Email Address"
-                      required
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="bg-background"
+                      required
+                      className="bg-background border-foreground/10 h-12 text-base"
                     />
-                    {format === "paperback" && (
-                      <>
-                        <Input
-                          placeholder="Street Address"
-                          required
-                          value={formData.address}
-                          onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                          className="bg-background"
-                        />
-                        <div className="grid grid-cols-2 gap-4">
-                          <Input
-                            placeholder="City"
-                            required
-                            value={formData.city}
-                            onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                            className="bg-background"
-                          />
-                          <Input
-                            placeholder="ZIP Code"
-                            required
-                            value={formData.zipCode}
-                            onChange={(e) => setFormData({ ...formData, zipCode: e.target.value })}
-                            className="bg-background"
-                          />
-                        </div>
-                      </>
-                    )}
                   </div>
+                </div>
 
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="gift" />
-                    <Label htmlFor="gift" className="text-sm text-muted-foreground cursor-pointer">
-                      This is a gift (add gift wrapping at checkout)
-                    </Label>
+                {/* Shipping (for paperback) */}
+                {format === "paperback" && (
+                  <div>
+                    <h3 className="font-black text-xl mb-6">Shipping Address</h3>
+                    <Input
+                      placeholder="Address"
+                      value={formData.address}
+                      onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                      required
+                      className="bg-background border-foreground/10 h-12 text-base"
+                    />
                   </div>
+                )}
 
-                  <div className="border-t pt-6">
-                    <div className="flex justify-between items-center mb-6">
-                      <span className="text-lg font-semibold">Total:</span>
-                      <span className="text-3xl font-bold gradient-text">
-                        ₹{(prices[format as keyof typeof prices] * quantity).toFixed(0)}
-                      </span>
-                    </div>
-                    <Button
-                      type="submit"
-                      size="lg"
-                      className="w-full btn-primary text-lg"
-                    >
-                      Complete Purchase
-                      <ArrowRight className="ml-2 h-5 w-5" />
-                    </Button>
-                    <div className="flex items-center justify-center gap-2 mt-4 text-xs text-muted-foreground">
-                      <ShieldCheck className="h-4 w-4" />
-                      <span>Secure checkout powered by Stripe</span>
-                    </div>
+                {/* Order Summary */}
+                <div className="bg-foreground/5 p-6 rounded-lg">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-foreground/60">
+                      {quantity > 1 ? `${quantity}x ` : ""}
+                      {format === "ebook" ? "E-Book" : "Paperback"}
+                    </span>
+                    <span className="font-bold">₹{currentPrice}</span>
                   </div>
-                </form>
-              </CardContent>
+                  <div className="flex justify-between items-center text-lg font-black border-t border-foreground/20 pt-4">
+                    <span>Total</span>
+                    <span className="text-primary text-2xl">₹{currentPrice}</span>
+                  </div>
+                </div>
+
+                <Button type="submit" size="lg" className="btn-primary w-full h-14 text-base">
+                  <Check className="h-5 w-5 mr-2" />
+                  Complete Order
+                  <ArrowRight className="ml-auto h-5 w-5" />
+                </Button>
+              </form>
             </Card>
           </div>
-        </div>
+        )}
+
+        {/* FAQ Section */}
+        <section className="mt-32 pt-20 border-t-2 border-foreground/10">
+          <h2 className="text-3xl font-black mb-12">Questions?</h2>
+
+          <div className="grid md:grid-cols-2 gap-12 max-w-4xl">
+            {[
+              {
+                q: "What format should I choose?",
+                a: "Choose E-Book for instant access across any device. Choose Paperback to hold the physical book and support the author directly.",
+              },
+              {
+                q: "How quickly will I receive my order?",
+                a: "E-Books are delivered instantly. Paperbacks are shipped within 3-5 business days to most locations.",
+              },
+              {
+                q: "Can I gift the book?",
+                a: "Yes! E-Books can be forwarded to any email. Paperbacks can be shipped to any address as a gift.",
+              },
+              {
+                q: "What's your refund policy?",
+                a: "30-day money-back guarantee on all purchases. No questions asked.",
+              },
+            ].map((item, i) => (
+              <div key={i} className="space-y-3">
+                <h3 className="font-black text-lg">{item.q}</h3>
+                <p className="text-foreground/60 leading-relaxed">{item.a}</p>
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
     </div>
   );
+};
 };
 
 export default Buy;

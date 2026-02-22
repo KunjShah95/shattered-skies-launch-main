@@ -10,25 +10,21 @@ const Newsletter = () => {
       icon: BookOpen,
       title: "Exclusive Chapters",
       description: "Get sneak peeks and bonus chapters before they're released to the public.",
-      gradient: "from-red-500 to-pink-500",
     },
     {
       icon: Eye,
       title: "Behind-the-Scenes",
       description: "Author commentary, world-building notes, and creative process insights.",
-      gradient: "from-purple-500 to-indigo-500",
     },
     {
       icon: Gift,
       title: "Launch Discounts",
       description: "Special pricing on new releases and early bird access to pre-orders.",
-      gradient: "from-yellow-500 to-orange-500",
     },
     {
       icon: Users,
       title: "Shape the Story",
       description: "Vote on character decisions and influence future plot directions.",
-      gradient: "from-blue-500 to-cyan-500",
     },
   ];
 
@@ -51,24 +47,22 @@ const Newsletter = () => {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative py-20 md:py-28 hero-pattern">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5" />
-        <div className="container relative">
-          <div className="max-w-3xl mx-auto text-center space-y-8">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium">
-              <Sparkles className="h-4 w-4" />
-              <span>Join 5,000+ Readers</span>
-            </div>
-            <h1 className="text-5xl md:text-6xl font-serif font-bold animate-fade-in">
-              Join the <span className="gradient-text">Reader Circle</span>
+      <section className="py-28">
+        <div className="container max-w-7xl mx-auto px-6">
+          <div className="max-w-4xl mx-auto text-center space-y-10">
+            <span className="text-sm font-bold uppercase tracking-widest text-secondary">
+              subscriber exclusive
+            </span>
+            <h1 className="text-6xl md:text-7xl font-black leading-tight">
+              Be<br />
+              <span className="gradient-text">First</span>
             </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Be the first to get exclusive chapters, author notes, and launch bonuses.
-              This is for readers who like to be early.
+            <p className="text-2xl text-foreground/60 max-w-3xl mx-auto">
+              Join the reader circle. Get exclusive chapters, behind-the-scenes notes, and early access to everything before anyone else.
             </p>
-            <div className="pt-4">
+            <div className="pt-8">
               <NewsletterForm showName={true} />
             </div>
           </div>
@@ -76,27 +70,24 @@ const Newsletter = () => {
       </section>
 
       {/* What You Get */}
-      <section className="section-elegant">
-        <div className="container-elegant">
-          <div className="text-center max-w-3xl mx-auto mb-12">
-            <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6">
-              What You'll <span className="gradient-text">Receive</span>
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              As an insider, you'll get access to exclusive content and experiences
-            </p>
-          </div>
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+      <section className="py-28 bg-foreground/5">
+        <div className="container max-w-7xl mx-auto px-6">
+          <h2 className="text-5xl font-black mb-20">
+            What's<br />
+            <span className="gradient-text">Inside</span>
+          </h2>
+          
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl">
             {benefits.map((benefit, index) => (
               <Card
                 key={index}
-                className="p-8 card-elegant hover:shadow-xl transition-all duration-300"
+                className="p-8 border-2 border-foreground/10 rounded-xl hover:border-primary transition-all"
               >
-                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${benefit.gradient} flex items-center justify-center mb-6`}>
-                  <benefit.icon className="h-8 w-8 text-white" />
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+                  <benefit.icon className="h-6 w-6 text-primary" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3">{benefit.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">{benefit.description}</p>
+                <h3 className="text-xl font-black mb-3">{benefit.title}</h3>
+                <p className="text-foreground/60 leading-relaxed">{benefit.description}</p>
               </Card>
             ))}
           </div>
@@ -104,85 +95,65 @@ const Newsletter = () => {
       </section>
 
       {/* Past Updates */}
-      <section className="py-20 bg-card/50">
-        <div className="container">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6">
-                Sample <span className="gradient-text">Updates</span>
-              </h2>
-              <p className="text-xl text-muted-foreground">
-                Here's what subscribers have already received
-              </p>
-            </div>
-            <div className="space-y-6">
-              {pastUpdates.map((update, index) => (
-                <Card
-                  key={index}
-                  className="p-6 card-elegant hover:shadow-lg transition-all duration-300"
-                >
-                  <div className="flex flex-col md:flex-row gap-6">
-                    <div className="flex-shrink-0">
-                      <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center">
-                        <FileText className="h-7 w-7 text-primary" />
-                      </div>
-                    </div>
-                    <div className="flex-1 space-y-2">
-                      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2">
-                        <h3 className="text-xl font-bold hover:text-primary transition-colors">
-                          {update.title}
-                        </h3>
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground flex-shrink-0">
-                          <Calendar className="h-4 w-4" />
-                          {update.date}
-                        </div>
-                      </div>
-                      <p className="text-muted-foreground leading-relaxed">
-                        {update.description}
-                      </p>
-                    </div>
+      <section className="py-28">
+        <div className="container max-w-7xl mx-auto px-6">
+          <h2 className="text-5xl font-black mb-6">
+            Recent<br />
+            <span className="gradient-text">Updates</span>
+          </h2>
+          <p className="text-xl text-foreground/60 mb-20 max-w-2xl">
+            Here's what subscribers have already received. This is the kind of content that waits.
+          </p>
+
+          <div className="space-y-6 max-w-3xl">
+            {pastUpdates.map((update, index) => (
+              <Card
+                key={index}
+                className="p-8 border-2 border-foreground/10 rounded-xl hover:border-primary transition-all"
+              >
+                <div className="space-y-4">
+                  <div className="flex justify-between items-start gap-6">
+                    <h3 className="text-xl font-black flex-1">{update.title}</h3>
+                    <span className="text-sm font-bold uppercase tracking-widest text-secondary flex-shrink-0">
+                      {update.date}
+                    </span>
                   </div>
-                </Card>
-              ))}
-            </div>
+                  <p className="text-foreground/60 leading-relaxed">{update.description}</p>
+                </div>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Final CTA */}
-      <section className="section-elegant">
-        <div className="container">
-          <Card className="p-12 text-center space-y-6 bg-gradient-to-br from-primary/5 to-secondary/5 border-primary/20 max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium">
-              <Sparkles className="h-4 w-4" />
-              <span>Limited Time Offer</span>
-            </div>
-            <h2 className="text-4xl font-serif font-bold">
-              This is for readers who like to be <span className="gradient-text">early</span>
+      <section className="py-28 bg-foreground/5">
+        <div className="container max-w-4xl mx-auto px-6">
+          <Card className="p-16 text-center space-y-10 border-0 rounded-xl">
+            <span className="text-sm font-bold uppercase tracking-widest text-secondary inline-block">
+              No spam. Ever.
+            </span>
+            <h2 className="text-5xl font-black">
+              This is for readers<br />
+              who like to be <span className="gradient-text">first</span>
             </h2>
-            <p className="text-lg text-muted-foreground max-w-xl mx-auto">
-              Join thousands of readers already inside the circle. Get your first exclusive chapter
-              within minutes of signing up.
+            <p className="text-lg text-foreground/60 max-w-2xl mx-auto">
+              Thousands of readers are already inside. Join today and get your first exclusive chapter within minutes.
             </p>
-            <div className="pt-4 max-w-md mx-auto">
-              <NewsletterForm buttonText="Join Now" />
+            <div className="pt-8 max-w-md mx-auto">
+              <NewsletterForm buttonText="Subscribe Now" />
             </div>
-            <p className="text-sm text-muted-foreground">
-              No spam, ever. Unsubscribe anytime.
-            </p>
           </Card>
         </div>
       </section>
 
-      {/* Alternative */}
-      <section className="py-12 bg-card">
-        <div className="container">
-          <div className="text-center">
-            <p className="text-muted-foreground mb-4">Already have the book?</p>
-            <Button asChild variant="outline" size="lg">
-              <Link to="/buy">Explore More Books</Link>
-            </Button>
-          </div>
+      {/* CTA */}
+      <section className="py-20">
+        <div className="container max-w-7xl mx-auto px-6 text-center">
+          <p className="text-foreground/60 mb-6 text-lg">Or pick up the book right now:</p>
+          <Button asChild size="lg" className="btn-primary">
+            <Link to="/buy">Get Shattered Skies</Link>
+          </Button>
         </div>
       </section>
     </div>

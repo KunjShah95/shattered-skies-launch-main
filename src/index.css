@@ -4,44 +4,39 @@
 
 @layer base {
   :root {
-    --background: 40 20% 97%;
-    --foreground: 220 30% 15%;
+    --background: 0 0% 100%;
+    --foreground: 15 30% 12%;
 
-    --card: 40 25% 95%;
-    --card-foreground: 220 25% 20%;
+    --card: 0 0% 100%;
+    --card-foreground: 15 30% 12%;
 
-    --popover: 40 30% 98%;
-    --popover-foreground: 220 25% 20%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 15 30% 12%;
 
-    --primary: 340 65% 48%;
+    --primary: 270 80% 44%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 20% 25%;
+    --secondary: 25 95% 48%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 220 15% 92%;
-    --muted-foreground: 220 20% 45%;
+    --muted: 200 15% 86%;
+    --muted-foreground: 200 10% 45%;
 
-    --accent: 45 75% 52%;
-    --accent-foreground: 220 30% 15%;
+    --accent: 270 80% 44%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 65% 48%;
+    --destructive: 0 80% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 15% 88%;
-    --input: 220 15% 94%;
-    --ring: 340 65% 48%;
+    --border: 200 15% 90%;
+    --input: 200 15% 95%;
+    --ring: 270 80% 44%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    --gradient-elegant: linear-gradient(135deg, hsl(340 65% 48%), hsl(220 30% 35%));
-    --gradient-hero: linear-gradient(to bottom right, hsl(40 20% 97%), hsl(40 15% 94%), hsl(40 20% 95%));
-    --gradient-gold: linear-gradient(135deg, hsl(45 75% 52%), hsl(35 80% 45%));
-    --gradient-subtle: linear-gradient(to right, hsl(220 20% 25%), hsl(340 65% 48%));
-
-    --shadow-elegant: 0 10px 40px -10px hsl(340 65% 48% / 0.15);
-    --shadow-card: 0 4px 20px -5px hsl(0 0% 0% / 0.08);
-    --shadow-hover: 0 20px 40px -10px hsl(0 0% 0% / 0.12);
+    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
+    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.1);
+    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.1);
   }
 }
 
@@ -58,8 +53,8 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
+    font-weight: 800;
   }
 }
 
@@ -69,23 +64,19 @@
   }
 
   .gradient-text {
-    @apply bg-clip-text text-transparent;
-    background-image: var(--gradient-elegant);
-  }
-
-  .gradient-gold {
-    @apply bg-clip-text text-transparent;
-    background-image: var(--gradient-gold);
+    background: linear-gradient(90deg, hsl(270 80% 44%), hsl(25 95% 48%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .card-elegant {
-    @apply bg-card rounded-xl border border-border/50 shadow-card;
+    @apply bg-card rounded-md border border-border shadow-sm;
     transition: all 0.3s ease;
   }
 
   .card-elegant:hover {
-    box-shadow: var(--shadow-hover);
-    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
   }
 
   .section-elegant {
@@ -93,12 +84,11 @@
   }
 
   .container-elegant {
-    @apply container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    @apply container max-w-7xl mx-auto px-6 sm:px-8;
   }
 
   .btn-primary {
-    @apply bg-primary text-primary-foreground font-semibold px-8 py-3 rounded-lg;
-    transition: all 0.2s ease;
+    @apply bg-primary text-primary-foreground font-bold px-6 py-3 rounded transition-all;
   }
 
   .btn-primary:hover {
@@ -106,44 +96,12 @@
     transform: translateY(-2px);
   }
 
-  .btn-secondary {
-    @apply bg-secondary text-secondary-foreground font-semibold px-8 py-3 rounded-lg;
-    transition: all 0.2s ease;
-  }
-
-  .btn-secondary:hover {
-    @apply shadow-lg;
-    transform: translateY(-2px);
-  }
-
-  .badge-elegant {
-    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
-    background: var(--gradient-gold);
-    color: hsl(220 30% 15%);
-  }
-
   .nav-link {
-    @apply text-sm font-medium text-muted-foreground transition-all hover:text-primary;
+    @apply text-sm font-medium text-muted-foreground transition-colors hover:text-foreground;
     position: relative;
   }
 
-  .nav-link::after {
-    content: '';
-    @apply absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300;
-  }
-
-  .nav-link:hover::after {
-    @apply w-full;
-  }
-
   .divider-elegant {
-    @apply w-full h-px bg-gradient-to-r from-transparent via-border to-transparent;
-  }
-
-  .hero-pattern {
-    background-image:
-      radial-gradient(at 40% 20%, hsl(340 65% 48% / 0.05) 0px, transparent 50%),
-      radial-gradient(at 80% 0%, hsl(45 75% 52% / 0.03) 0px, transparent 50%),
-      radial-gradient(at 0% 50%, hsl(220 30% 35% / 0.03) 0px, transparent 50%);
+    @apply w-full h-px bg-border;
   }
 }

@@ -1,31 +1,13 @@
-import { Instagram, Twitter, Youtube, Sparkles, ArrowRight } from "lucide-react";
+import { Instagram, Twitter, Mail } from "lucide-react";
 import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { useState } from "react";
-import { toast } from "sonner";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
-  const [email, setEmail] = useState("");
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email) {
-      toast.success("Thank you for subscribing!");
-      setEmail("");
-    }
-  };
-
   const footerLinks = {
     product: [
-      { label: "Buy the Book", href: "/buy" },
-      { label: "Sample Chapters", href: "#" },
-      { label: "Pricing", href: "/buy" },
-    ],
-    company: [
-      { label: "About the Author", href: "/about" },
-      { label: "Contact", href: "/about" },
-      { label: "Press Kit", href: "#" },
+      { label: "Get the Book", href: "/buy" },
+      { label: "About", href: "/about" },
+      { label: "Newsletter", href: "/newsletter" },
     ],
     legal: [
       { label: "Privacy Policy", href: "#" },
@@ -35,95 +17,66 @@ const Footer = () => {
   };
 
   return (
-    <footer className="border-t border-border/50 bg-card/50">
-      <div className="container py-12">
-        <div className="grid gap-12 md:grid-cols-5">
-          <div className="md:col-span-2">
-            <Link to="/" className="flex items-center gap-2 text-xl font-serif font-bold gradient-text mb-4">
-              <Sparkles className="h-5 w-5" />
-              <span>Aarav Sen</span>
+    <footer className="border-t-2 border-foreground/10 bg-white">
+      <div className="container max-w-7xl mx-auto px-6 py-20">
+        <div className="grid md:grid-cols-3 gap-16 mb-16">
+          {/* Brand */}
+          <div>
+            <Link to="/" className="text-2xl font-black text-foreground mb-6 block hover:opacity-70">
+              Aarav Sen
             </Link>
-            <p className="text-muted-foreground mb-6 max-w-sm">
-              Award-winning author crafting stories that blur the line between reality and imagination.
-              Join thousands of readers on this journey.
+            <p className="text-foreground/60 text-base leading-relaxed max-w-xs">
+              Author of <em>Shattered Skies</em>. Creating stories that make you think, feel, and question everything.
             </p>
-            <div className="flex gap-3">
+          </div>
+
+          {/* Links */}
+          <div>
+            <h4 className="font-black text-lg text-foreground mb-6">Navigate</h4>
+            <ul className="space-y-4">
+              {footerLinks.product.map((link, index) => (
+                <li key={index}>
+                  <Link
+                    to={link.href}
+                    className="text-foreground/60 hover:text-foreground font-bold transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Social */}
+          <div>
+            <h4 className="font-black text-lg text-foreground mb-6">Follow</h4>
+            <div className="flex gap-6">
               {[
-                { icon: Instagram, href: "#" },
-                { icon: Twitter, href: "#" },
-                { icon: Youtube, href: "#" },
+                { icon: Instagram, href: "#", label: "Instagram" },
+                { icon: Twitter, href: "#", label: "Twitter" },
+                { icon: Mail, href: "#", label: "Email" },
               ].map((social, index) => (
-                <Button key={index} variant="ghost" size="icon" asChild>
-                  <a href={social.href} aria-label={social.icon.name}>
-                    <social.icon className="h-5 w-5" />
-                  </a>
-                </Button>
+                <a
+                  key={index}
+                  href={social.href}
+                  aria-label={social.label}
+                  className="w-12 h-12 bg-foreground/5 rounded-full flex items-center justify-center hover:bg-foreground/10 transition"
+                >
+                  <social.icon className="h-5 w-5 text-foreground" />
+                </a>
               ))}
             </div>
           </div>
-
-          <div>
-            <h4 className="font-semibold mb-4">Product</h4>
-            <ul className="space-y-3">
-              {footerLinks.product.map((link, index) => (
-                <li key={index}>
-                  <a
-                    href={link.href}
-                    className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
-                  >
-                    <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-semibold mb-4">Company</h4>
-            <ul className="space-y-3">
-              {footerLinks.company.map((link, index) => (
-                <li key={index}>
-                  <a
-                    href={link.href}
-                    className="text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-semibold mb-4">Stay Updated</h4>
-            <p className="text-sm text-muted-foreground mb-4">
-              Subscribe to receive exclusive content and early access to new releases.
-            </p>
-            <form onSubmit={handleSubscribe} className="flex gap-2">
-              <Input
-                type="email"
-                placeholder="Your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="bg-background"
-              />
-              <Button type="submit" variant="secondary" size="icon">
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-            </form>
-          </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-border/50 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} Aarav Sen. All rights reserved.</p>
-          <div className="flex gap-6">
+        <div className="border-t-2 border-foreground/10 pt-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 text-sm text-foreground/60">
+          <p className="font-bold">© {new Date().getFullYear()} Aarav Sen. All rights reserved.</p>
+          <div className="flex gap-8">
             {footerLinks.legal.map((link, index) => (
               <a
                 key={index}
                 href={link.href}
-                className="hover:text-foreground transition-colors"
+                className="font-bold hover:text-foreground transition-colors"
               >
                 {link.label}
               </a>
