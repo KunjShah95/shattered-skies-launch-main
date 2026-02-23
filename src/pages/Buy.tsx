@@ -336,6 +336,5 @@ const Buy = () => {
     </div>
   );
 };
-};
 
 export default Buy;
