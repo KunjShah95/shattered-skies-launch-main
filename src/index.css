@@ -13,7 +13,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 15 30% 12%;
 
-    --primary: 270 80% 44%;
+    --primary: 220 90% 56%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 25 95% 48%;
@@ -22,7 +22,7 @@
     --muted: 200 15% 86%;
     --muted-foreground: 200 10% 45%;
 
-    --accent: 270 80% 44%;
+    --accent: 220 90% 56%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 80% 55%;
@@ -30,7 +30,7 @@
 
     --border: 200 15% 90%;
     --input: 200 15% 95%;
-    --ring: 270 80% 44%;
+    --ring: 220 90% 56%;
 
     --radius: 0.5rem;
 
@@ -64,7 +64,7 @@
   }
 
   .gradient-text {
-    background: linear-gradient(90deg, hsl(270 80% 44%), hsl(25 95% 48%));
+    background: linear-gradient(90deg, hsl(220 90% 56%), hsl(25 95% 48%));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
