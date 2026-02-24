@@ -8,26 +8,26 @@ import bookCover from "@/assets/book-cover.jpg";
 const Home = () => {
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section - Bold and Asymmetrical */}
-      <section className="relative py-20 md:py-40 overflow-hidden">
+      {/* Hero Section - Parallel Layout */}
+      <section className="relative py-20 md:py-32 overflow-hidden">
         <div className="container max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-16 items-end">
-            {/* Left side - text dominates */}
-            <div className="space-y-10">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left side - text */}
+            <div className="space-y-8 flex flex-col justify-center">
               <div className="space-y-6">
                 <span className="text-sm font-bold uppercase tracking-widest text-secondary">
                   New Release
                 </span>
-                <h1 className="font-black leading-tight">
+                <h1 className="text-5xl md:text-6xl font-black leading-tight">
                   Shattered<br />
                   <span className="gradient-text">Skies</span>
                 </h1>
-                <p className="text-2xl font-semibold text-foreground/70 max-w-lg leading-snug">
+                <p className="text-xl md:text-2xl font-semibold text-foreground/70 max-w-lg leading-snug">
                   A story that questions everything you think you know about reality.
                 </p>
               </div>
 
-              <p className="text-lg text-foreground/60 max-w-md leading-relaxed">
+              <p className="text-base md:text-lg text-foreground/60 max-w-md leading-relaxed">
                 5,000+ readers. 4.9★ rating. 12+ awards. This isn't hype. It's what happens when a real story finds its audience.
               </p>
 
@@ -44,16 +44,18 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Right side - book image with bold styling */}
-            <div className="relative">
-              <div className="aspect-[3/4] max-w-xs mx-auto lg:max-w-none lg:mx-0">
+            {/* Right side - book image with improved alignment */}
+            <div className="relative flex items-center justify-center">
+              <div className="w-full h-full flex items-center justify-center">
                 {/* Decorative element */}
-                <div className="absolute -inset-4 bg-secondary/10 rounded-2xl" />
-                <img
-                  src={bookCover}
-                  alt="Shattered Skies Book Cover"
-                  className="relative w-full h-full object-cover rounded-xl shadow-2xl"
-                />
+                <div className="absolute inset-0 bg-secondary/10 rounded-2xl transform scale-110" />
+                <div className="aspect-[3/4] w-full max-w-sm lg:max-w-md relative">
+                  <img
+                    src={bookCover}
+                    alt="Shattered Skies Book Cover"
+                    className="relative w-full h-full object-cover rounded-xl shadow-2xl"
+                  />
+                </div>
               </div>
             </div>
           </div>
